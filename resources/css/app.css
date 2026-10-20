@@ -1,0 +1,518 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-ink: #121820;
+    --color-ink-soft: #1b232e;
+    --color-ink-line: #2c3746;
+    --color-electric: #2563eb;
+    --color-electric-dark: #1d4ed8;
+    --color-emerald: #10b981;
+    --color-emerald-dark: #059669;
+    --color-expense: #ef4444;
+    --color-expense-dark: #dc2626;
+    --color-amber: #f59e0b;
+    --color-card: #f8fafc;
+    --color-muted: #64748b;
+}
+
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        background-color: var(--color-ink);
+        color: var(--color-ink);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .font-display {
+        font-family: var(--font-display);
+        letter-spacing: -0.02em;
+    }
+
+    /* Fokus keyboard yang konsisten dan tegas. */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+        outline: 3px solid var(--color-electric);
+        outline-offset: 2px;
+    }
+}
+
+@layer components {
+    /* ---------- Neo-Brutalism primitives ---------- */
+
+    .neo-card {
+        background-color: var(--color-card);
+        border: 3px solid #000;
+        border-radius: 14px;
+        box-shadow: 6px 6px 0 0 #000;
+    }
+
+    .neo-card-sm {
+        background-color: var(--color-card);
+        border: 2px solid #000;
+        border-radius: 12px;
+        box-shadow: 4px 4px 0 0 #000;
+    }
+
+    /* Kartu statistik dengan aksen warna di sisi atas. */
+    .neo-stat {
+        position: relative;
+        background-color: var(--color-card);
+        border: 3px solid #000;
+        border-radius: 14px;
+        box-shadow: 6px 6px 0 0 #000;
+        padding: 1.25rem;
+        overflow: hidden;
+        transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .neo-stat::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 8px;
+        background-color: var(--accent, var(--color-electric));
+        border-bottom: 3px solid #000;
+    }
+
+    .neo-stat:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 0 #000;
+    }
+
+    .neo-stat:active {
+        transform: translate(2px, 2px);
+        box-shadow: 3px 3px 0 0 #000;
+    }
+
+    .neo-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        border: 3px solid #000;
+        border-radius: 12px;
+        box-shadow: 4px 4px 0 0 #000;
+        transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .neo-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 0 #000;
+    }
+
+    .neo-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 0 #000;
+    }
+
+    .neo-btn-primary {
+        background-color: var(--color-electric);
+        color: #fff;
+    }
+
+    .neo-btn-primary:hover {
+        background-color: var(--color-electric-dark);
+    }
+
+    .neo-btn-success {
+        background-color: var(--color-emerald);
+        color: #000;
+    }
+
+    .neo-btn-success:hover {
+        background-color: var(--color-emerald-dark);
+        color: #fff;
+    }
+
+    .neo-btn-danger {
+        background-color: var(--color-expense);
+        color: #fff;
+    }
+
+    .neo-btn-danger:hover {
+        background-color: var(--color-expense-dark);
+    }
+
+    .neo-btn-ghost {
+        background-color: var(--color-card);
+        color: #000;
+    }
+
+    .neo-btn-ghost:hover {
+        background-color: #e2e8f0;
+    }
+
+    .neo-btn-sm {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8125rem;
+        border-width: 2px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 0 0 #000;
+    }
+
+    .neo-btn-sm:hover {
+        box-shadow: 4px 4px 0 0 #000;
+    }
+
+    .neo-input {
+        width: 100%;
+        background-color: #fff;
+        border: 2px solid #000;
+        border-radius: 10px;
+        padding: 0.625rem 0.875rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: var(--color-ink);
+        transition: box-shadow 140ms ease, border-color 140ms ease;
+    }
+
+    .neo-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .neo-input:focus {
+        outline: none;
+        box-shadow: 4px 4px 0 0 var(--color-electric);
+    }
+
+    .neo-input:disabled {
+        background-color: #e2e8f0;
+        color: var(--color-muted);
+        cursor: not-allowed;
+    }
+
+    .neo-input.is-error {
+        border-color: var(--color-expense);
+        box-shadow: 4px 4px 0 0 var(--color-expense);
+    }
+
+    .neo-label {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.375rem;
+    }
+
+    .neo-field-error {
+        display: block;
+        margin-top: 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--color-expense-dark);
+    }
+
+    /* ---------- Sidebar ---------- */
+
+    .neo-sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        color: #cbd5e1;
+        transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+    }
+
+    .neo-sidebar-link:hover {
+        background-color: var(--color-ink-soft);
+        color: #fff;
+        transform: translateX(3px);
+    }
+
+    .neo-sidebar-link.is-active {
+        background-color: var(--color-electric);
+        border-color: #000;
+        color: #fff;
+        box-shadow: 4px 4px 0 0 #000;
+    }
+
+    /* ---------- Badges ---------- */
+
+    .neo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.2rem 0.6rem;
+        border: 2px solid #000;
+        border-radius: 999px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+
+    .neo-badge-income {
+        background-color: var(--color-emerald);
+        color: #000;
+    }
+
+    .neo-badge-expense {
+        background-color: var(--color-expense);
+        color: #fff;
+    }
+
+    .neo-badge-neutral {
+        background-color: #e2e8f0;
+        color: #000;
+    }
+
+    /* ---------- Table ---------- */
+
+    .neo-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .neo-table thead th {
+        background-color: var(--color-ink);
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 0.875rem 1rem;
+        text-align: left;
+        border-bottom: 3px solid #000;
+    }
+
+    .neo-table tbody td {
+        padding: 0.875rem 1rem;
+        border-bottom: 2px solid #e2e8f0;
+        font-size: 0.9375rem;
+        vertical-align: middle;
+    }
+
+    .neo-table tbody tr {
+        transition: background-color 120ms ease;
+    }
+
+    .neo-table tbody tr:hover {
+        background-color: #eef2f7;
+    }
+
+    .neo-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* ---------- Modal ---------- */
+
+    .neo-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(18, 24, 32, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        z-index: 60;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 180ms ease, visibility 180ms ease;
+    }
+
+    .neo-modal-backdrop.is-open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .neo-modal-panel {
+        background-color: var(--color-card);
+        border: 3px solid #000;
+        border-radius: 16px;
+        box-shadow: 8px 8px 0 0 #000;
+        width: 100%;
+        max-width: 34rem;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(14px) scale(0.98);
+        transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .neo-modal-backdrop.is-open .neo-modal-panel {
+        transform: translateY(0) scale(1);
+    }
+
+    /* ---------- Alert ---------- */
+
+    .neo-alert {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.875rem 1.125rem;
+        border: 3px solid #000;
+        border-radius: 12px;
+        box-shadow: 4px 4px 0 0 #000;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .neo-alert-success {
+        background-color: var(--color-emerald);
+        color: #000;
+    }
+
+    .neo-alert-error {
+        background-color: var(--color-expense);
+        color: #fff;
+    }
+
+    /* ---------- Chart canvas ---------- */
+
+    .chart-box {
+        position: relative;
+        width: 100%;
+    }
+
+    /* ---------- Scrollbar ---------- */
+
+    .neo-scroll::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+
+    .neo-scroll::-webkit-scrollbar-track {
+        background-color: #e2e8f0;
+    }
+
+    .neo-scroll::-webkit-scrollbar-thumb {
+        background-color: #000;
+        border-radius: 999px;
+    }
+
+    /* ---------- Pagination ---------- */
+
+    .neo-pagination {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .neo-pagination a,
+    .neo-pagination span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.25rem;
+        height: 2.25rem;
+        padding: 0 0.625rem;
+        border: 2px solid #000;
+        border-radius: 10px;
+        background-color: #fff;
+        font-family: var(--font-display);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        box-shadow: 3px 3px 0 0 #000;
+        transition: transform 140ms ease, box-shadow 140ms ease;
+    }
+
+    .neo-pagination a:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 0 #000;
+    }
+
+    .neo-pagination span[aria-current="page"] {
+        background-color: var(--color-electric);
+        color: #fff;
+    }
+
+    .neo-pagination span[aria-disabled="true"] {
+        background-color: #e2e8f0;
+        color: var(--color-muted);
+        box-shadow: none;
+        border-color: #cbd5e1;
+    }
+}
+
+/* ---------- Sidebar responsif ---------- */
+
+.neo-sidebar {
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 1023px) {
+    .neo-sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 17rem;
+        max-width: 85vw;
+        transform: translateX(-102%);
+        z-index: 70;
+        box-shadow: 8px 0 0 0 #000;
+    }
+
+    .neo-sidebar.is-open {
+        transform: translateX(0);
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    /* Animasi masuk untuk kartu & baris tabel. */
+    @keyframes neo-rise {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-rise {
+        animation: neo-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes neo-pop {
+        0% { transform: scale(0.94); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .animate-pop {
+        animation: neo-pop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
+
+/* Hormati preferensi pengguna yang mengurangi animasi. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
